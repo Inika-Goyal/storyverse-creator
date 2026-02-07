@@ -8,13 +8,13 @@ import os
 current_script_folder = os.path.dirname(os.path.abspath(__file__))
 
 # 2. Tell Python the CSV is right here in this folder
-csv_file_path = os.path.join(current_script_folder, 'user_reviews_copy.csv')
+csv_file_path = os.path.join(current_script_folder, 'user_reviews.csv')
 # --- PATH SETUP END ---
 
 # 3. Verify it exists before crashing
 if not os.path.exists(csv_file_path):
     print(f"❌ Error: Could not find file at: {csv_file_path}")
-    print("Make sure 'user_reviews_copy.csv' is in the same folder as this script!")
+    print("Make sure 'user_reviews.csv' is in the same folder as this script!")
 else:
     print(f"✅ Found data at: {csv_file_path}")
     
@@ -26,7 +26,7 @@ def train_sentiment_model():
     try:
         df = pd.read_csv(csv_file_path)
     except FileNotFoundError:
-        print("Error: 'user_reviews_copy.csv' not found. Run generate_data.py first.")
+        print("Error: 'user_reviews.csv' not found. Run generate_data.py first.")
         return
 
     # 2. Preprocessing
@@ -69,7 +69,7 @@ def train_sentiment_model():
     # Optional: Test a single new user
     # Example: 25 year old Male, likes Sci-Fi, prefers Ending A
     # Note: We must encode the inputs exactly like we did the training data
-    new_user = pd.DataFrame([[25, 'Male', 'Sci-Fi', 'Ending A']], 
+    new_user = pd.DataFrame([[55, 'Male', 'Sci-Fi', 'Ending A']], 
                             columns=['Age', 'Gender', 'Favorite_Genre', 'Preferred_Ending'])
     
     # Apply the same encoders
