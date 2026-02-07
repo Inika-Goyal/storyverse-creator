@@ -53,11 +53,11 @@ const Navbar = () => {
       <div className="flex items-center gap-8">
         {/* Logo */}
         <Link to="/browse" className="flex items-center group">
-          <img
-            src="/logo.png"
-            alt="STORYVERSE Logo"
-            className="h-12 md:h-16 w-auto object-contain"
-          />
+          <img 
+          src="/logo.png" 
+          alt="STORYVERSE Logo" 
+          className="h-12 md:h-16 w-auto object-contain" 
+        />
         </Link>
 
         {/* Nav Links - Desktop */}
