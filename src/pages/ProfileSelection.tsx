@@ -8,11 +8,9 @@ interface Profile {
 }
 
 const profiles: Profile[] = [
-  { id: "1", name: "Creator", color: "hsl(160, 70%, 50%)" },
-  { id: "2", name: "Writer", color: "hsl(320, 80%, 55%)" },
-  { id: "3", name: "Reader", color: "hsl(45, 90%, 55%)" },
-  { id: "4", name: "Guest", color: "hsl(0, 75%, 55%)" },
-  { id: "5", name: "Kids", color: "hsl(210, 85%, 55%)", isKids: true },
+  { id: "2", name: "Adventurer", color: "hsl(320, 80%, 55%)" },
+  { id: "3", name: "Writer", color: "hsl(45, 90%, 55%)" },
+  { id: "4", name: "Add Account", color: "hsl(0, 75%, 55%)" },
 ];
 
 const ProfileSelection = () => {
@@ -65,7 +63,7 @@ const ProfileSelection = () => {
                 {/* Kids badge */}
                 {profile.isKids && (
                   <span className="absolute bottom-2 right-2 text-xs font-bold text-primary">
-                    kids
+                    Make an Account
                   </span>
                 )}
               </div>
