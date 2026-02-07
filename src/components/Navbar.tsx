@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { label: "Home", path: "/" },
+    { label: "Home", path: "/browse" },
     { label: "Your Stories", path: "/browse", sectionId: "your-stories" },
     { label: "New & Popular", path: "/browse", sectionId: "new-on-storyverse" },
   ];
@@ -50,7 +50,7 @@ const Navbar = () => {
     }}>
       <div className="flex items-center gap-8">
         {/* Logo */}
-        <Link to="/" className="flex items-center group">
+        <Link to="/browse" className="flex items-center group">
           <img 
           src="/logo.png" 
           alt="STORYVERSE Logo" 
