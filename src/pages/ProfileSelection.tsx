@@ -23,11 +23,13 @@ const ProfileSelection = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
       {/* Logo */}
-      <img 
-        src="/logo.png" 
-        alt="StoryVerse Logo" 
-        className="absolute top-8 left-1/2 -translate-x-1/2 h-12 md:h-16 w-auto object-contain" 
-      />
+      <div className="absolute top-6 left-6 md:top-6 md:left-12 z-20">
+        <img 
+          src="/logo.png" 
+          alt="STORYVERSE Logo" 
+          className="h-12 md:h-16 w-auto object-contain" 
+        />
+      </div>
 
       {/* Main Content */}
       <div className="text-center">

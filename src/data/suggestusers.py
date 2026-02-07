@@ -1,94 +1,137 @@
-# suggest_users.py
-#
-# Uses your provided CSV (user_reviews.csv) with columns:
-# Age,Gender,Favorite_Genre,Preferred_Ending,Rating
-#
-# Outputs suggested users for a target user based on:
-# 1) Same genre (required)
-# 2) Closest rating ("common rating" = minimal rating difference)
-# Tie-breakers: closest age, then higher rating
+import json
+import csv
 
-import os
-import pandas as pd
+CSV_PATH = "user_reviews.csv"
+CURRENT_USER_JSON_PATH = "placeholdername.json"
 
-CSV_NAME = "user_reviews.csv"   # must be in the same folder as this script
-TARGET_USER_ID = "U0001"        # U0001 = first row in the CSV
-TOP_N = 10
 
-def load_data():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(script_dir, CSV_NAME)
+def load_current_user_id():
+    """
+    Read current user ID from JSON file.
+    """
+    with open(CURRENT_USER_JSON_PATH, "r") as f:
+        data = json.load(f)
+    return int(data["User_ID"])
 
-    if not os.path.exists(csv_path):
-        raise FileNotFoundError(
-            f"Could not find '{CSV_NAME}' in: {script_dir}\n"
-            f"Place '{CSV_NAME}' in the same folder as suggest_users.py"
-        )
 
-    df = pd.read_csv(csv_path)
+def load_users():
+    """
+    Load all users from CSV into a list of dictionaries.
+    """
+    users = []
+    with open(CSV_PATH, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            row["User_ID"] = int(row["User_ID"])
+            row["Rating"] = int(row["Rating"])
+            row["Age"] = int(row["Age"]) if row["Age"] else None
+            users.append(row)
+    return users
 
-    required_cols = ["Age", "Gender", "Favorite_Genre", "Preferred_Ending", "Rating"]
-    missing = [c for c in required_cols if c not in df.columns]
-    if missing:
-        raise ValueError(f"Missing columns in CSV: {missing}\nFound: {list(df.columns)}")
 
-    # Add stable IDs based on row order
-    df = df.copy()
-    df["user_id"] = [f"U{i:04d}" for i in range(1, len(df) + 1)]
-    return df
+def find_user(users, user_id):
+    """
+    Find a user in the CSV by User_ID.
+    """
+    for u in users:
+        if u["User_ID"] == user_id:
+            return u
+    return None
 
-def suggest_users(df, target_user_id, top_n=10):
-    if target_user_id not in set(df["user_id"]):
-        raise ValueError(
-            f"Target user_id '{target_user_id}' not found. "
-            f"Valid range: U0001..U{len(df):04d}"
-        )
 
-    target = df.loc[df["user_id"] == target_user_id].iloc[0]
+def similarity_score(candidate, current):
+    """
+    Score similarity based on:
+    - Same genre (high weight)
+    - Close rating (low weight)
+    """
+    score = 0
 
-    # Required: same genre
-    pool = df[df["Favorite_Genre"] == target["Favorite_Genre"]].copy()
-    pool = pool[pool["user_id"] != target_user_id]
+    if candidate["Favorite_Genre"] == current["Favorite_Genre"]:
+        score += 10
 
-    if pool.empty:
-        return target, pool
+    score += max(0, 5 - abs(candidate["Rating"] - current["Rating"]))
 
-    # "Common rating" = closest rating
-    pool["rating_diff"] = (pool["Rating"] - target["Rating"]).abs()
+    return score
 
-    # Tie-breakers
-    pool["age_diff"] = (pool["Age"] - target["Age"]).abs()
 
-    # Sort: closest rating, then closest age, then higher rating
-    pool = pool.sort_values(
-        by=["rating_diff", "age_diff", "Rating"],
-        ascending=[True, True, False]
-    )
+def suggest_users(users, current_user, k=10):
+    """
+    Suggest users based on similarity score.
+    """
+    scored = []
 
-    return target, pool.head(top_n)
+    for u in users:
+        if u["User_ID"] == current_user["User_ID"]:
+            continue
+
+        score = similarity_score(u, current_user)
+        scored.append((score, u))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [u for score, u in scored[:k]]
+
 
 def main():
-    df = load_data()
-    target, recs = suggest_users(df, TARGET_USER_ID, TOP_N)
+    """
+    Main execution.
+    """
+    current_user_id = load_current_user_id()
+    users = load_users()
 
-    print("Target user:")
+    current_user = find_user(users, current_user_id)
+
+    print("Current user:")
     print(
-        f"{target['user_id']} | Age {target['Age']} | {target['Gender']} | "
-        f"{target['Favorite_Genre']} | {target['Preferred_Ending']} | Rating {target['Rating']}"
+        f"User_ID={current_user['User_ID']} | "
+        f"Genre={current_user['Favorite_Genre']} | "
+        f"Rating={current_user['Rating']}"
     )
 
-    print(f"\nSuggested users (same genre + closest rating), TOP {TOP_N}:")
-    if recs.empty:
-        print("(No matches found.)")
-        return
+    recommendations = suggest_users(users, current_user)
 
-    for _, u in recs.iterrows():
+    print("\nSuggested users:")
+    for i, u in enumerate(recommendations, 1):
         print(
-            f"- {u['user_id']} | Rating {u['Rating']} (diff {u['rating_diff']}) | "
-            f"Age {u['Age']} (diff {u['age_diff']}) | "
-            f"Ending {u['Preferred_Ending']} | {u['Gender']}"
+            f"{i}. User_ID={u['User_ID']} | "
+            f"Genre={u['Favorite_Genre']} | "
+            f"Rating={u['Rating']}"
         )
+
 
 if __name__ == "__main__":
     main()
-    
+def main():
+    # 1) Get the current user id from JSON (this stands in for “who is logged in”)
+    current_user_id = load_current_user_id()
+
+    # 2) Load all users from the CSV
+    users = load_users()
+
+    # 3) Find the current user's full row in the CSV (so we can read their genre/rating)
+    current_user = find_user(users, current_user_id)
+
+    # 4) Suggest similar users (based on genre + rating similarity)
+    recommendations = suggest_users(users, current_user, k=10)
+
+    # 5) Print results (current user first, then the suggested users)
+    print("Current user (from JSON -> matched in CSV):")
+    print(
+        f"User_ID={current_user['User_ID']} | "
+        f"Age={current_user.get('Age')} | "
+        f"Gender={current_user.get('Gender')} | "
+        f"Genre={current_user.get('Favorite_Genre')} | "
+        f"Ending={current_user.get('Preferred_Ending')} | "
+        f"Rating={current_user.get('Rating')}"
+    )
+
+    print("\nSuggested users:")
+    for i, u in enumerate(recommendations, 1):
+        print(
+            f"{i}. User_ID={u['User_ID']} | "
+            f"Age={u.get('Age')} | "
+            f"Gender={u.get('Gender')} | "
+            f"Genre={u.get('Favorite_Genre')} | "
+            f"Ending={u.get('Preferred_Ending')} | "
+            f"Rating={u.get('Rating')}"
+        )
