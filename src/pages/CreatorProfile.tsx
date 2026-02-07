@@ -30,28 +30,80 @@ const CreatorProfile = () => {
   ]);
   const messageInputRef = useRef<HTMLInputElement | null>(null);
 
+  const generateReply = (input: string, history: Message[]) => {
+    const text = input.toLowerCase().trim();
+    const lastAssistant = [...history].reverse().find((m) => m.from === "them")?.text ?? "";
+    const pick = (options: string[]) => options.find((o) => o !== lastAssistant) ?? options[0];
+
+    if (/(^|\b)(hi|hello|hey|yo)\b/.test(text)) {
+      return pick([
+        "Hey! What kind of series are you building?",
+        "Hi! Share your niche and the vibe you’re going for.",
+        "Hey there — what’s the episode about?",
+      ]);
+    }
+
+    if (/(^|\b)(yes|yep|yeah|sure|ok|okay|definitely)\b/.test(text)) {
+      return pick([
+        "Great — send your series idea, target platform, and deadline.",
+        "Awesome. Drop your outline or a quick logline and I’ll respond.",
+        "Perfect. What’s the timeline and the vibe you’re aiming for?",
+      ]);
+    }
+
+    if (text.includes("outline")) {
+      return pick([
+        "Paste your outline and I’ll mark pacing, stakes, and the cliffhanger.",
+        "Send the beat list — I’ll tighten the arc and add a hook.",
+      ]);
+    }
+
+    if (text.includes("script") || text.includes("dialogue")) {
+      return pick([
+        "Share the scene or script draft and I’ll polish pacing + dialogue.",
+        "Drop a paragraph and I’ll punch up the hook and ending.",
+      ]);
+    }
+
+    if (text.includes("idea") || text.includes("concept") || text.includes("logline")) {
+      return pick([
+        "Give me a 1‑line logline + tone. I’ll suggest a hook and twist.",
+        "Share your concept and target platform — I’ll map a quick arc.",
+      ]);
+    }
+
+    if (text.includes("timeline") || text.includes("deadline")) {
+      return pick([
+        "When do you want it published? I can suggest milestones.",
+        "Got it — what’s the release date and how long is the episode?",
+      ]);
+    }
+
+    return pick([
+      "Tell me the episode goal (views, followers, or story arc) and I’ll tailor edits.",
+      "What’s the target platform and length? I’ll tailor the structure.",
+      "Drop a quick summary and I’ll suggest a hook, twist, and ending.",
+    ]);
+  };
+
   const handleSendMessage = () => {
     const trimmed = messageDraft.trim();
     if (!trimmed) return;
     const now = new Date();
     const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    setMessages((prev) => [
-      ...prev,
-      { id: `${Date.now()}`, text: trimmed, from: "you", time },
-    ]);
+    setMessages((prev) => {
+      const next = [...prev, { id: `${Date.now()}`, text: trimmed, from: "you", time }];
+      window.setTimeout(() => {
+        const replyTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const replyText = generateReply(trimmed, next);
+        setMessages((current) => [
+          ...current,
+          { id: `${Date.now()}-reply`, text: replyText, from: "them", time: replyTime },
+        ]);
+      }, 700);
+      return next;
+    });
     setMessageDraft("");
-
-    window.setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `${Date.now()}-reply`,
-          text: "Sounds good. Want me to review your outline or suggest edits?",
-          from: "them",
-          time,
-        },
-      ]);
-    }, 700);
   };
 
   return (
