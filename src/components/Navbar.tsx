@@ -6,6 +6,7 @@ import { auth } from "@/lib/firebase";
 import NotificationPanel from "./NotificationPanel";
 
 const Navbar = () => {
+ 
   const navigate = useNavigate();
 
   const [showNotifications, setShowNotifications] = useState(false);
@@ -33,6 +34,7 @@ const Navbar = () => {
       await signOut(auth);
       navigate("/login");
     } catch (err) {
+      // optional: toast an error
       console.error("Logout failed:", err);
     } finally {
       setShowUserMenu(false);
@@ -135,7 +137,6 @@ const Navbar = () => {
             )}
           </div>
         </div>
-      </div>
     </nav>
   );
 };
