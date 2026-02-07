@@ -10,6 +10,7 @@ import ShowDetail from "./pages/ShowDetail";
 import EpisodeDetail from "./pages/EpisodeDetail";
 import StoryChoice from "./pages/StoryChoice";
 import CreatorStats from "./pages/CreatorStats";
+import CreatorProfile from "./pages/CreatorProfile";
 import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -74,6 +75,14 @@ const App = () => (
             element={
               <RequireAuth>
                 <CreatorStats />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/creators/:id"
+            element={
+              <RequireAuth>
+                <CreatorProfile />
               </RequireAuth>
             }
           />

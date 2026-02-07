@@ -52,7 +52,7 @@ const Navbar = () => {
     >
       <div className="flex items-center gap-8">
         {/* Logo */}
-        <Link to="/" className="flex items-center group">
+        <Link to="/browse" className="flex items-center group">
           <img 
           src="/logo.png" 
           alt="STORYVERSE Logo" 

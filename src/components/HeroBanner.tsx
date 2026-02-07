@@ -10,6 +10,8 @@ interface HeroBannerProps {
 }
 
 const HeroBanner = ({ show }: HeroBannerProps) => {
+  const [chatOpen, setChatOpen] = useState(false);
+
   return (
     <div className="relative h-[72vh] md:h-[82vh] w-full overflow-hidden">
       <div className="absolute inset-0">
@@ -46,12 +48,15 @@ const HeroBanner = ({ show }: HeroBannerProps) => {
               Open series
             </Button>
           </Link>
-          <Link to={`/show/${show.id}`}>
-            <Button size="lg" variant="secondary" className="font-semibold gap-2">
-              <Sparkles className="w-5 h-5" />
-              AI suggestions
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            variant="secondary"
+            className="font-semibold gap-2"
+            onClick={() => setChatOpen(true)}
+          >
+            <Sparkles className="w-5 h-5" />
+            AI suggestions
+          </Button>
         </div>
       </div>
 
@@ -64,6 +69,12 @@ const HeroBanner = ({ show }: HeroBannerProps) => {
           </div>
         </div>
       </div>
+
+      <StoryChatSheet
+        open={chatOpen}
+        onOpenChange={setChatOpen}
+        initialPrompt={`Suggest 3 hooks and 1 twist for ${show.title}.`}
+      />
     </div>
   );
 };

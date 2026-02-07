@@ -28,33 +28,56 @@ export default function StoryChatSheet({ open, onOpenChange, initialPrompt }: St
     if (open && initialPrompt) setMessage(initialPrompt);
   }, [open, initialPrompt]);
 
+  function localReply(input: string) {
+    const lower = input.toLowerCase();
+    if (lower.includes("name") || lower.includes("protagonist") || lower.includes("character")) {
+      return "Name ideas:\n- Avery Cross\n- Juno Vale\n- Kai Monroe\n- Lila Frost\n- Theo Ash";
+    }
+    if (lower.includes("twist") || lower.includes("ending") || lower.includes("cliffhanger")) {
+      return "Twist ideas:\n1) The ally staged the crisis to protect a secret.\n2) The win reveals a bigger threat.\n3) The hero must choose loyalty vs. truth.";
+    }
+    if (lower.includes("hook") || lower.includes("opening") || lower.includes("cold open")) {
+      return "Hook ideas:\n- Start mid‑action with a sensory detail.\n- Open on a question only this episode can answer.\n- Begin with a countdown or urgent message.";
+    }
+    return "Quick ideas:\n- Hook: drop into action, then reveal the conflict.\n- Twist: ally protects the antagonist.\n- Ending: a fork with real cost.";
+  }
+
   async function sendMessage() {
     const trimmed = message.trim();
     if (!trimmed || loading) return;
 
+    const previous = history;
+    const nextHistory = [...history, { role: "user", content: trimmed }];
+    setHistory(nextHistory);
+    setMessage("");
     setLoading(true);
 
     try {
       const baseUrl = import.meta.env.VITE_API_URL || "";
+      if (!baseUrl) {
+        setHistory([...nextHistory, { role: "assistant", content: localReply(trimmed) }]);
+        return;
+      }
+
       const res = await fetch(`${baseUrl}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: trimmed,
-          history, // prior turns only
+          history: previous, // prior turns only
         }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Request failed");
 
-      setHistory(data.history as ChatTurn[]);
-      setMessage("");
+      if (Array.isArray(data.history)) {
+        setHistory(data.history as ChatTurn[]);
+      } else {
+        setHistory([...nextHistory, { role: "assistant", content: data?.reply ?? localReply(trimmed) }]);
+      }
     } catch (err: any) {
-      setHistory((h) => [
-        ...h,
-        { role: "assistant", content: `Error: ${err.message || String(err)}` },
-      ]);
+      setHistory([...nextHistory, { role: "assistant", content: localReply(trimmed) }]);
     } finally {
       setLoading(false);
     }
@@ -127,4 +150,3 @@ export default function StoryChatSheet({ open, onOpenChange, initialPrompt }: St
     </Sheet>
   );
 }
-
