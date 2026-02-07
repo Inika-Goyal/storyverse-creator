@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import heroBanner from "@/assets/welcome-banner.jpg";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -8,15 +9,15 @@ export default function Landing() {
     <div className="min-h-screen relative overflow-hidden bg-background">
       <div className="absolute inset-0">
         <img
-          src="/storyverse-hero.svg"
-          alt="Storyverse hero background"
-          className="absolute inset-0 h-full w-full object-cover opacity-95"
+          src={heroBanner}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-top opacity-80"
         />
         <div className="absolute inset-0 creator-grid opacity-20" />
         <div className="absolute top-16 -right-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
         <div className="absolute bottom-0 -left-20 h-80 w-80 rounded-full bg-accent/15 blur-3xl" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/35 via-background/20 to-background/55" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/30 via-transparent to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/55 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">
@@ -87,6 +88,47 @@ export default function Landing() {
                 <p className="text-sm text-muted-foreground mt-2">{item.body}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-14 w-full max-w-5xl text-left">
+            <div className="flex items-center justify-between gap-4 mb-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">FAQ</p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-foreground">
+                  Frequently Asked Questions
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {[
+                {
+                  question: "How is Storyverse different from a normal content calendar?",
+                  answer:
+                    "It treats your content like a series, so you plan story arcs, episodes, and releases in one flow instead of scattered notes.",
+                },
+                {
+                  question: "What does the AI help with?",
+                  answer:
+                    "Turn ideas into hooks, outlines, and short scripts, plus get suggestions for strong endings and next episodes.",
+                },
+                {
+                  question: "Do I need a team to use it?",
+                  answer:
+                    "No. Solo creators can run their whole pipeline, and teams can collaborate with writers, editors, and designers.",
+                },
+                {
+                  question: "Can I track what’s working?",
+                  answer:
+                    "Yes—Storyverse highlights the best time to post and simple performance signals per episode.",
+                },
+              ].map((item) => (
+                <div key={item.question} className="rounded-2xl border border-border bg-card/70 p-5 backdrop-blur">
+                  <p className="font-semibold text-foreground">{item.question}</p>
+                  <p className="text-sm text-muted-foreground mt-2">{item.answer}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
