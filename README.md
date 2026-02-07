@@ -15,6 +15,7 @@ Key features include📜 :
   Collaboration: Connect with editors, designers, or other creators in the Creator Lounge for feedback and partnership.
 
 Mission 💌: 
+
 StoryVerse empowers small and emerging creators with the same tools and support systems as professional content teams, making digital storytelling intuitive, strategic, and collaborative.
 
 ## Tech Stack
