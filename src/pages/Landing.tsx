@@ -1,33 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import heroBanner from "@/assets/hero-banner.jpg";
 
-const Auth = () => {
+export default function Landing() {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-background">
-      {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${heroBanner})`,
-        }}
-      />
-
-      {/* Dark overlay so text stays readable */}
-      <div className="absolute inset-0 bg-black/60" />
-
       {/* Background mosaic of show posters */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-40">
         <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1 transform rotate-[-10deg] scale-125 -translate-y-20">
           {Array.from({ length: 48 }).map((_, i) => (
             <div
               key={i}
               className="aspect-[2/3] bg-gradient-to-br from-muted to-muted/50 rounded-sm"
-              style={{
-                animationDelay: `${i * 0.1}s`,
-              }}
+              style={{ animationDelay: `${i * 0.1}s` }}
             />
           ))}
         </div>
@@ -38,14 +24,20 @@ const Auth = () => {
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header (logo only now) */}
-        <header className="flex items-center justify-center px-6 md:px-12 py-6">
+        {/* Header */}
+        <header className="flex items-center justify-between px-6 md:px-12 py-6">
           <h1 className="font-display text-3xl md:text-5xl text-primary tracking-wider">
             STORYVERSE
           </h1>
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-1.5 rounded text-sm font-semibold transition-colors"
+          >
+            Sign In
+          </button>
         </header>
 
-        {/* Hero Content */}
+        {/* Hero */}
         <div className="flex-1 flex flex-col items-center justify-center px-6 text-center -mt-20">
           <h2 className="font-display text-4xl md:text-6xl lg:text-7xl text-foreground mb-4 max-w-4xl leading-tight">
             Unlimited stories,
@@ -57,11 +49,7 @@ const Auth = () => {
             Create your own adventure. Share with the world.
           </p>
 
-          <p className="text-foreground mb-4">
-            Ready to create? Start your journey.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xl justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xl">
             <button
               onClick={() => navigate("/signup")}
               className="h-14 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xl rounded flex items-center justify-center gap-2 transition-colors"
@@ -79,11 +67,8 @@ const Auth = () => {
           </div>
         </div>
 
-        {/* Footer spacer */}
         <div className="h-20" />
       </div>
     </div>
   );
-};
-
-export default Auth;
+}

@@ -11,6 +11,10 @@ import EpisodeDetail from "./pages/EpisodeDetail";
 import StoryChoice from "./pages/StoryChoice";
 import CreatorStats from "./pages/CreatorStats";
 import NotFound from "./pages/NotFound";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import RequireAuth from "./components/RequireAuth";
 
 const queryClient = new QueryClient();
 
@@ -22,13 +26,58 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
-          <Route path="/profiles" element={<ProfileSelection />} />
-          <Route path="/browse" element={<Index />} />
-          <Route path="/show/:id" element={<ShowDetail />} />
-          <Route path="/episode/:id" element={<EpisodeDetail />} />
-          <Route path="/episode/:id/choice" element={<StoryChoice />} />
-          <Route path="/stats" element={<CreatorStats />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/profiles"
+            element={
+              <RequireAuth>
+                <ProfileSelection />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/browse"
+            element={
+              <RequireAuth>
+                <Index />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/show/:id"
+            element={
+              <RequireAuth>
+                <ShowDetail />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/episode/:id"
+            element={
+              <RequireAuth>
+                <EpisodeDetail />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/episode/:id/choice"
+            element={
+              <RequireAuth>
+                <StoryChoice />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/stats"
+            element={
+              <RequireAuth>
+                <CreatorStats />
+              </RequireAuth>
+            }
+          />
+
+          {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
