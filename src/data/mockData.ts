@@ -18,21 +18,23 @@ export interface Episode {
   choiceB?: { label: string; nextEpisodeId: string };
 }
 
-export interface Show {
+export interface Movie {
   id: string;
   title: string;
-  description: string;
-  image: string;
+  author: string;
   genre: string;
+  description: string;
+  image: string;  
+  views: number; 
   episodes: Episode[];
-  views: number;
-  badge?: string;
+  badge?: string; 
 }
 
-export const shows: Show[] = [
+export const shows: Movie[] = [
   {
     id: "1",
     title: "The Last Kingdom",
+    author: "JoonYoung Ma",
     description: "A warrior's journey through a mystical realm where magic and steel collide. Follow Aldric as he discovers his true heritage and fights to save a kingdom on the brink of destruction.",
     image: showFantasy,
     genre: "Fantasy",
@@ -76,6 +78,7 @@ export const shows: Show[] = [
   {
     id: "2",
     title: "Sunset Promises",
+    author: "Kyle",
     description: "Two strangers meet at a beach resort, their summer romance blossoming into something neither expected. But secrets from their pasts threaten to tear them apart.",
     image: showRomance,
     genre: "Romance",
@@ -96,6 +99,7 @@ export const shows: Show[] = [
   {
     id: "3",
     title: "Neon Shadows",
+    author: "Kyle",
     description: "In a cyberpunk metropolis of 2157, a hacker uncovers a conspiracy that reaches the highest levels of corporate power. Trust no one. Question everything.",
     image: showScifi,
     genre: "Sci-Fi",
@@ -117,6 +121,7 @@ export const shows: Show[] = [
   {
     id: "4",
     title: "Whispers in the Dark",
+    author: "Kyle",
     description: "A family moves into a Victorian mansion with a dark history. As strange events unfold, they realize they're not alone in the house.",
     image: showMystery,
     genre: "Mystery",
@@ -137,6 +142,7 @@ export const shows: Show[] = [
   {
     id: "5",
     title: "The Relic Hunter",
+    author: "Kyle",
     description: "Dr. Elena Cross travels the world searching for legendary artifacts, racing against shadowy organizations who want the same treasures for darker purposes.",
     image: showAdventure,
     genre: "Adventure",
@@ -158,6 +164,7 @@ export const shows: Show[] = [
   {
     id: "6",
     title: "Cold Case Files",
+    author: "Kyle",
     description: "Detective Maria Santos reopens unsolved cases that everyone else has forgotten. Each case reveals secrets that powerful people want to stay buried.",
     image: showCrime,
     genre: "Crime",

@@ -1,17 +1,33 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Play, Plus, ThumbsUp, Share2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { getMovies } from "@/lib/movieService";
+import { Movie } from "@/data/mockData";
 import { shows } from "@/data/mockData";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 
 const ShowDetail = () => {
   const { id } = useParams();
-  const show = shows.find((s) => s.id === id);
+  const [show, setShow] = useState<Movie | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchShow = async () => {
+      const allShows = await getMovies();
+      const found = allShows.find((s) => String(s.id) === String(id));
+      setShow(found || null);
+      setLoading(false);
+    };
+    fetchShow();
+  }, [id]);
+
+  if (loading) return <div className="min-h-screen bg-background text-white flex items-center justify-center">Loading Story...</div>;
 
   if (!show) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p>Show not found</p>
+      <div className="min-h-screen bg-background flex items-center justify-center text-white">
+        <p>Show not found (ID: {id})</p>
       </div>
     );
   }

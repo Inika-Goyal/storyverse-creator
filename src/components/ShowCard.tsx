@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Play, Info } from "lucide-react";
-import { Show } from "@/data/mockData";
+import { Movie } from "@/data/mockData";
 
 interface ShowCardProps {
-  show: Show;
+  show: Movie;
 }
 
 const ShowCard = ({ show }: ShowCardProps) => {

@@ -1,11 +1,11 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 import ShowCard from "./ShowCard";
-import { Show } from "@/data/mockData";
+import { Movie } from "@/data/mockData";
 
 interface ShowRowProps {
   title: string;
-  shows: Show[];
+  shows: Movie[];
 }
 
 const ShowRow = ({ title, shows }: ShowRowProps) => {

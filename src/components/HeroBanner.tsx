@@ -1,10 +1,10 @@
 import { Play, Info } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Show } from "@/data/mockData";
+import { Movie } from "@/data/mockData";
 import { Button } from "./ui/button";
 
 interface HeroBannerProps {
-  show: Show;
+  show: Movie;
 }
 
 const HeroBanner = ({ show }: HeroBannerProps) => {
@@ -65,9 +65,11 @@ const HeroBanner = ({ show }: HeroBannerProps) => {
       </div>
 
       {/* Rating Badge */}
-      <div className="absolute bottom-[20%] right-4 md:right-12 flex items-center gap-2">
-        <div className="h-10 w-1 bg-muted-foreground" />
-        <span className="text-lg font-medium">{show.genre}</span>
+      <div className="absolute right-20 top-1/2 -translate-y-1/2 flex items-center gap-22 origin-right pr-8">
+        <div className="w-12 h-[5px] bg-red-600" /> 
+        <span className="text-white uppercase tracking-[0.3em] text-sm font-bold whitespace-nowrap">
+          {show.genre}
+        </span>
       </div>
     </div>
   );
