@@ -35,7 +35,7 @@ export default function Login() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-background">
       <img
-        src="/storyverse-hero.svg"
+        src="/storyverse-hero.jpg"
         alt="Storyverse background"
         className="absolute inset-0 h-full w-full object-cover opacity-90"
       />
