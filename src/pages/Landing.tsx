@@ -89,6 +89,47 @@ export default function Landing() {
               </div>
             ))}
           </div>
+
+          <div className="mt-14 w-full max-w-5xl text-left">
+            <div className="flex items-center justify-between gap-4 mb-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">FAQ</p>
+                <h3 className="text-2xl md:text-3xl font-semibold text-foreground">
+                  Frequently Asked Questions
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {[
+                {
+                  question: "How is Storyverse different from a normal content calendar?",
+                  answer:
+                    "It treats your content like a series, so you plan story arcs, episodes, and releases in one flow instead of scattered notes.",
+                },
+                {
+                  question: "What does the AI help with?",
+                  answer:
+                    "Turn ideas into hooks, outlines, and short scripts, plus get suggestions for strong endings and next episodes.",
+                },
+                {
+                  question: "Do I need a team to use it?",
+                  answer:
+                    "No. Solo creators can run their whole pipeline, and teams can collaborate with writers, editors, and designers.",
+                },
+                {
+                  question: "Can I track what’s working?",
+                  answer:
+                    "Yes—Storyverse highlights the best time to post and simple performance signals per episode.",
+                },
+              ].map((item) => (
+                <div key={item.question} className="rounded-2xl border border-border bg-card/70 p-5 backdrop-blur">
+                  <p className="font-semibold text-foreground">{item.question}</p>
+                  <p className="text-sm text-muted-foreground mt-2">{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
