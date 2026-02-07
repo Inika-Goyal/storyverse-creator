@@ -12,11 +12,21 @@ const Navbar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
+  const handleNavClick = (path: string, sectionId?: string) => {
+    if (sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(path);
+    }
+  };
+
   const navLinks = [
     { label: "Home", path: "/" },
-    { label: "My Stories", path: "/my-stories" },
-    { label: "New & Popular", path: "/popular" },
-    { label: "My List", path: "/my-list" },
+    { label: "Your Stories", path: "/browse", sectionId: "your-stories" },
+    { label: "New & Popular", path: "/browse", sectionId: "new-on-storyverse" },
   ];
 
   const handleLogout = async () => {
@@ -32,7 +42,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative z-50 flex items-center justify-between px-4 md:px-12 py-4 bg-background">
+    <nav className="relative z-50 flex items-center justify-between bg-background" style={{
+      height: "56px",
+      padding: "0 40px",
+      fontFamily: "Helvetica, Arial, sans-serif",
+      fontSize: "14px"
+    }}>
       <div className="flex items-center gap-8">
         {/* Logo */}
         <Link to="/" className="flex items-center group">
@@ -44,19 +59,25 @@ const Navbar = () => {
         </Link>
 
         {/* Nav Links - Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center" style={{ gap: "18px" }}>
           {navLinks.map((link) => (
-            <Link
+            <button
               key={link.path}
-              to={link.path}
-              className={`text-sm font-medium transition-colors hover:text-foreground ${
-                location.pathname === link.path
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-              }`}
+              onClick={() => handleNavClick(link.path, link.sectionId)}
+              style={{
+                fontSize: "14px",
+                fontFamily: "Helvetica, Arial, sans-serif",
+                color: "rgba(255,255,255,0.7)",
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+                transition: "color 0.2s"
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = "rgba(255,255,255,1)"}
+              onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
             >
               {link.label}
-            </Link>
+            </button>
           ))}
         </div>
       </div>

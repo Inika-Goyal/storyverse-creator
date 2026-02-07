@@ -23,8 +23,12 @@ const Index = () => {
       
       {/* Content Rows */}
       <div className="-mt-32 relative z-10 pb-20">
-        <ShowRow title="Your Stories" shows={yourStories} />
-        <ShowRow title="New On StoryVerse" shows={trendingNow} />
+        <div id="your-stories">
+          <ShowRow title="Your Stories" shows={yourStories} />
+        </div>
+        <div id="new-on-storyverse">
+          <ShowRow title="New On StoryVerse" shows={trendingNow} />
+        </div>
         <ShowRow title={`Trending in ${userNiche}`} shows={trendingInNiche.length > 0 ? trendingInNiche : yourStories} />
       </div>
     </div>

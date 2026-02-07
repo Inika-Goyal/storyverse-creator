@@ -30,7 +30,12 @@ const ShowRow = ({ title, shows }: ShowRowProps) => {
 
   return (
     <div className="relative group/row py-4">
-      <h2 className="text-lg md:text-xl font-semibold mb-3 px-4 md:px-12">
+      <h2 style={{
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        fontSize: "20px",
+        fontWeight: 600,
+        marginBottom: "12px"
+      }} className="px-4 md:px-12">
         {title}
       </h2>
       
@@ -49,7 +54,8 @@ const ShowRow = ({ title, shows }: ShowRowProps) => {
         <div
           ref={rowRef}
           onScroll={handleScroll}
-          className="flex gap-2 overflow-x-auto scrollbar-hide px-4 md:px-12"
+          className="flex overflow-x-auto scrollbar-hide px-4 md:px-12"
+          style={{ gap: "6px" }}
         >
           {shows.map((show) => (
             <ShowCard key={show.id} show={show} />

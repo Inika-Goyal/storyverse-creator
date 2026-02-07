@@ -17,26 +17,27 @@ const HeroBanner = ({ show }: HeroBannerProps) => {
           alt={show.title}
           className="w-full h-full object-cover"
         />
-        {/* Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent" />
+        {/* Gradient - Netflix style left-to-right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent" style={{
+          background: "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%)"
+        }} />
       </div>
 
       {/* Content */}
       <div className="absolute bottom-[20%] left-4 md:left-12 max-w-xl z-10">
-        <div className="flex items-center gap-2 mb-4">
-          {/* <img src="/logo.png" alt="Logo" className="h-8 md:h-12 w-auto object-contain" /> */}
-          {/* <p className="text-primary font-semibold tracking-widest text-xs md:text-sm">
-            ORIGINAL
-          </p> */}
-        </div>
-
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-wide mb-4">
-          {show.title.toUpperCase()}
-        </h1>
-        <p className="text-sm md:text-base text-muted-foreground mb-2">
-          New Episodes Available
+        <p className="text-xs md:text-sm text-muted-foreground font-semibold mb-2 tracking-wide">
+          NEW EPISODES AVAILABLE
         </p>
+
+        <h1 style={{
+          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontWeight: 700,
+          fontSize: "64px",
+          letterSpacing: "-1px",
+          lineHeight: "1.05"
+        }} className="mb-4">
+          {show.title}
+        </h1>
         <p className="text-sm md:text-base mb-6 line-clamp-3 text-foreground/90">
           {show.description}
         </p>

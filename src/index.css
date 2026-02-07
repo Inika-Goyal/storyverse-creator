@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/*
+  Design system
+  All colors are HSL
+  Netflix-inspired dark theme
 */
+
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
 
 @layer base {
   :root {
-    /* Netflix-inspired dark theme - always dark */
+    /* Core theme */
     --background: 0 0% 8%;
     --foreground: 0 0% 100%;
 
@@ -18,7 +23,7 @@ All colors MUST be HSL.
     --popover: 0 0% 11%;
     --popover-foreground: 0 0% 100%;
 
-    /* Netflix Red */
+    /* Netflix red */
     --primary: 357 92% 47%;
     --primary-foreground: 0 0% 100%;
 
@@ -40,7 +45,7 @@ All colors MUST be HSL.
 
     --radius: 0.25rem;
 
-    /* Custom StoryVerse tokens */
+    /* Netflix tokens */
     --netflix-black: 0 0% 8%;
     --netflix-dark: 0 0% 11%;
     --netflix-gray: 0 0% 18%;
@@ -48,6 +53,7 @@ All colors MUST be HSL.
     --netflix-red: 357 92% 47%;
     --netflix-white: 0 0% 100%;
 
+    /* Sidebar */
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 357 92% 47%;
@@ -57,9 +63,27 @@ All colors MUST be HSL.
     --sidebar-border: 0 0% 20%;
     --sidebar-ring: 357 92% 47%;
   }
+
+  /* Global element defaults */
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont,
+                 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: -0.01em; /* Netflix-style tight body text */
+  }
 }
 
-/* Custom scrollbar for Netflix look */
+/* Display / headline font */
+.font-display {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.04em;
+}
+
+/* Scrollbar (Netflix style) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -78,14 +102,7 @@ All colors MUST be HSL.
   background: hsl(var(--netflix-light-gray));
 }
 
-/* Netflix-style font */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
-
-.font-display {
-  font-family: 'Bebas Neue', sans-serif;
-}
-
-/* Horizontal scroll container */
+/* Hide scrollbars for horizontal carousels */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -94,14 +111,3 @@ All colors MUST be HSL.
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
