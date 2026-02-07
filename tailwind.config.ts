@@ -57,6 +57,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Netflix custom colors
+        netflix: {
+          black: "hsl(var(--netflix-black))",
+          dark: "hsl(var(--netflix-dark))",
+          gray: "hsl(var(--netflix-gray))",
+          "light-gray": "hsl(var(--netflix-light-gray))",
+          red: "hsl(var(--netflix-red))",
+          white: "hsl(var(--netflix-white))",
+        },
+      },
+      fontFamily: {
+        display: ["Bebas Neue", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
