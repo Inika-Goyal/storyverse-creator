@@ -1,21 +1,29 @@
 import admin from "firebase-admin";
+import serviceAccount from "./serviceAccount.json" with { type: "json" };
 
-admin.initializeApp({
-  credential: admin.credential.cert("./serviceAccount.json"),
-});
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
 export async function requireAuth(req, res, next) {
-  const header = req.headers.authorization || "";
-  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
-  if (!token) return res.status(401).json({ error: "Missing token" });
-
   try {
-    const decoded = await admin.auth().verifyIdToken(token);
-    req.uid = decoded.uid;
-    req.email = decoded.email || null;
-    next();
-  } catch {
-    return res.status(401).json({ error: "Invalid token" });
+    const header = req.headers.authorization || "";
+    const match = header.match(/^Bearer (.+)$/);
+
+    if (!match) {
+      return res.status(401).json({ error: "Missing Authorization: Bearer <token>" });
+    }
+
+    const idToken = match[1];
+    const decoded = await admin.auth().verifyIdToken(idToken);
+
+    req.user = decoded; // attach decoded Firebase user claims
+    return next();
+  } catch (err) {
+    return res.status(401).json({ error: "Invalid or expired token" });
   }
 }
 
+export { admin };
