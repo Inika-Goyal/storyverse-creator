@@ -24,9 +24,11 @@ const ProfileSelection = () => {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
       {/* Logo */}
       <div className="absolute top-6 left-6 md:top-6 md:left-12 z-20">
-        <h1 className="logo-netflix-style text-4xl md:text-6xl">
-          STORYVERSE
-        </h1>
+        <img 
+          src="/logo.png" 
+          alt="STORYVERSE Logo" 
+          className="h-12 md:h-16 w-auto object-contain" 
+        />
       </div>
 
       {/* Main Content */}
