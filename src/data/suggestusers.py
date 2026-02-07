@@ -1,178 +1,137 @@
-import os
-import pandas as pd
+import json
+import csv
 
-# ----------------------------
-# SETTINGS YOU CAN CHANGE
-# ----------------------------
-
-# This is the filename of your CSV.
-# The script expects this CSV to be in the SAME folder as this Python file.
-CSV_NAME = "user_reviews.csv"
-
-# How many similar users you want to print/save.
-TOP_N = 10
+CSV_PATH = "user_reviews.csv"
+CURRENT_USER_JSON_PATH = "placeholdername.json"
 
 
-# ----------------------------
-# LOAD THE CSV DATA
-# ----------------------------
-def load_data():
-    # __file__ is the path to THIS python file.
-    # We use it so the script works no matter what directory you run it from.
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-
-    # Build the full path: "<this_script_folder>/user_reviews.csv"
-    csv_path = os.path.join(script_dir, CSV_NAME)
-
-    # If the file is not there, stop and show an error.
-    if not os.path.exists(csv_path):
-        raise FileNotFoundError(
-            f"Could not find '{CSV_NAME}' in this folder: {script_dir}\n"
-            f"Put '{CSV_NAME}' next to this .py file."
-        )
-
-    # Read the CSV into a DataFrame (a table-like structure in pandas).
-    df = pd.read_csv(csv_path)
-
-    # Make sure the CSV has the columns we need.
-    required_cols = ["User_ID", "Age", "Gender", "Favorite_Genre", "Preferred_Ending", "Rating"]
-    missing = [c for c in required_cols if c not in df.columns]
-    if missing:
-        raise ValueError(f"Your CSV is missing these columns: {missing}")
-
-    # Force User_ID to be a string.
-    # Why: Sometimes CSV reads IDs as numbers (1000) and sometimes as strings ("1000").
-    # Converting to string avoids mismatches.
-    df = df.copy()
-    df["User_ID"] = df["User_ID"].astype(str)
-
-    return df
+def load_current_user_id():
+    """
+    Read current user ID from JSON file.
+    """
+    with open(CURRENT_USER_JSON_PATH, "r") as f:
+        data = json.load(f)
+    return int(data["User_ID"])
 
 
-# ----------------------------
-# MAIN MATCHING LOGIC
-# ----------------------------
-def suggest_users_by_genre_and_rating(df, user_id, top_n=10):
-    # Make sure user_id is string to match df["User_ID"]
-    user_id = str(user_id)
-
-    # 1) Find the current user's row in the CSV.
-    #    This is how we "get the current user's tastes".
-    target_rows = df[df["User_ID"] == user_id]
-
-    # If no rows match, that user_id does not exist in the CSV.
-    if target_rows.empty:
-        raise ValueError(f"User_ID '{user_id}' not found in CSV.")
-
-    # target is the current user's single row (first match).
-    target = target_rows.iloc[0]
-
-    # 2) Extract the "tastes" we want to match on.
-    target_genre = target["Favorite_Genre"]
-    target_rating = target["Rating"]
-
-    # 3) Build the candidate list:
-    #    - same genre as the current user
-    #    - not the current user (exclude self)
-    candidates = df[
-        (df["Favorite_Genre"] == target_genre) &
-        (df["User_ID"] != user_id)
-    ].copy()
-
-    # If nobody shares the same genre, return empty suggestions.
-    if candidates.empty:
-        return target, candidates
-
-    # 4) Compute a similarity measure:
-    # rating_diff = how far away someone’s rating is from the current user’s rating.
-    # Example: current rating 4
-    # - candidate rating 5 => diff 1
-    # - candidate rating 4 => diff 0 (best)
-    candidates["rating_diff"] = (candidates["Rating"] - target_rating).abs()
-
-    # 5) Sort candidates:
-    # - smallest rating_diff first (closest rating)
-    # - then higher rating (if same diff, prefer higher-rated users)
-    candidates = candidates.sort_values(
-        by=["rating_diff", "Rating"],
-        ascending=[True, False]
-    )
-
-    # Return only the top N matches.
-    return target, candidates.head(top_n)
+def load_users():
+    """
+    Load all users from CSV into a list of dictionaries.
+    """
+    users = []
+    with open(CSV_PATH, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            row["User_ID"] = int(row["User_ID"])
+            row["Rating"] = int(row["Rating"])
+            row["Age"] = int(row["Age"]) if row["Age"] else None
+            users.append(row)
+    return users
 
 
-# ----------------------------
-# PROGRAM ENTRY POINT
-# ----------------------------
+def find_user(users, user_id):
+    """
+    Find a user in the CSV by User_ID.
+    """
+    for u in users:
+        if u["User_ID"] == user_id:
+            return u
+    return None
+
+
+def similarity_score(candidate, current):
+    """
+    Score similarity based on:
+    - Same genre (high weight)
+    - Close rating (low weight)
+    """
+    score = 0
+
+    if candidate["Favorite_Genre"] == current["Favorite_Genre"]:
+        score += 10
+
+    score += max(0, 5 - abs(candidate["Rating"] - current["Rating"]))
+
+    return score
+
+
+def suggest_users(users, current_user, k=10):
+    """
+    Suggest users based on similarity score.
+    """
+    scored = []
+
+    for u in users:
+        if u["User_ID"] == current_user["User_ID"]:
+            continue
+
+        score = similarity_score(u, current_user)
+        scored.append((score, u))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [u for score, u in scored[:k]]
+
+
 def main():
-    # Load the CSV table.
-    try:
-        df = load_data()
-    except Exception as e:
-        # If load_data fails, print the error and stop.
-        print(f"❌ {e}")
-        return
+    """
+    Main execution.
+    """
+    current_user_id = load_current_user_id()
+    users = load_users()
 
-    print(f"Loaded {len(df)} rows.\n")
+    current_user = find_user(users, current_user_id)
 
-    # Ask the user running the script for the current user's ID.
-    # This is the only thing you input; everything else is pulled from the CSV.
-    user_id = input("Enter current User_ID (example: 1000): ").strip()
-
-    # Simple check: user must type something.
-    if not user_id:
-        print("❌ User_ID cannot be empty.")
-        return
-
-    # Run the recommender logic.
-    try:
-        target, suggestions = suggest_users_by_genre_and_rating(df, user_id, TOP_N)
-    except Exception as e:
-        print(f"❌ {e}")
-        return
-
-    # Show the current user's row (so you can verify it matched the right person).
-    print("\nCurrent user (pulled from CSV):")
+    print("Current user:")
     print(
-        f"User_ID {target['User_ID']} | Age {target['Age']} | {target['Gender']} | "
-        f"Genre {target['Favorite_Genre']} | Ending {target['Preferred_Ending']} | "
-        f"Rating {target['Rating']}"
+        f"User_ID={current_user['User_ID']} | "
+        f"Genre={current_user['Favorite_Genre']} | "
+        f"Rating={current_user['Rating']}"
     )
 
-    # Print suggestions.
-    print(f"\nSuggested users (same genre, closest rating), TOP {TOP_N}:")
+    recommendations = suggest_users(users, current_user)
 
-    if suggestions.empty:
-        print("(No matches found.)")
-        return
-
-    # Print each suggested user row.
-    for _, u in suggestions.iterrows():
+    print("\nSuggested users:")
+    for i, u in enumerate(recommendations, 1):
         print(
-            f"- User_ID {u['User_ID']} | Rating {u['Rating']} (diff {u['rating_diff']}) | "
-            f"Age {u['Age']} | Ending {u['Preferred_Ending']} | {u['Gender']}"
+            f"{i}. User_ID={u['User_ID']} | "
+            f"Genre={u['Favorite_Genre']} | "
+            f"Rating={u['Rating']}"
         )
 
-    # Save suggestions to a new CSV file so you can use them elsewhere.
-    out_name = f"suggested_for_{user_id}.csv"
-    out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), out_name)
 
-    # Save only the useful columns.
-    suggestions.to_csv(
-        out_path,
-        index=False,
-        columns=[
-            "User_ID", "Age", "Gender", "Favorite_Genre",
-            "Preferred_Ending", "Rating", "rating_diff"
-        ],
-    )
-
-    print(f"\n✅ Saved suggestions to: {out_name}")
-
-
-# This means:
-# "Only run main() if this file is being run directly."
-# If another Python file imports this file, main() will NOT auto-run.
 if __name__ == "__main__":
     main()
+def main():
+    # 1) Get the current user id from JSON (this stands in for “who is logged in”)
+    current_user_id = load_current_user_id()
+
+    # 2) Load all users from the CSV
+    users = load_users()
+
+    # 3) Find the current user's full row in the CSV (so we can read their genre/rating)
+    current_user = find_user(users, current_user_id)
+
+    # 4) Suggest similar users (based on genre + rating similarity)
+    recommendations = suggest_users(users, current_user, k=10)
+
+    # 5) Print results (current user first, then the suggested users)
+    print("Current user (from JSON -> matched in CSV):")
+    print(
+        f"User_ID={current_user['User_ID']} | "
+        f"Age={current_user.get('Age')} | "
+        f"Gender={current_user.get('Gender')} | "
+        f"Genre={current_user.get('Favorite_Genre')} | "
+        f"Ending={current_user.get('Preferred_Ending')} | "
+        f"Rating={current_user.get('Rating')}"
+    )
+
+    print("\nSuggested users:")
+    for i, u in enumerate(recommendations, 1):
+        print(
+            f"{i}. User_ID={u['User_ID']} | "
+            f"Age={u.get('Age')} | "
+            f"Gender={u.get('Gender')} | "
+            f"Genre={u.get('Favorite_Genre')} | "
+            f"Ending={u.get('Preferred_Ending')} | "
+            f"Rating={u.get('Rating')}"
+        )
