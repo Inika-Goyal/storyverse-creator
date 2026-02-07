@@ -3,106 +3,102 @@
 @tailwind utilities;
 
 /*
-  Design system
-  All colors are HSL
-  Netflix-inspired dark theme
+  Storyverse design system
+  Cinematic studio vibe, not a Netflix clone
 */
 
 /* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap');
 
 @layer base {
   :root {
     /* Core theme */
-    --background: 0 0% 8%;
-    --foreground: 0 0% 100%;
+    --background: 222 24% 7%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 11%;
-    --card-foreground: 0 0% 100%;
+    --card: 222 24% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 11%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 222 24% 11%;
+    --popover-foreground: 0 0% 98%;
 
-    /* Netflix red */
-    --primary: 357 92% 47%;
+    /* Ember accent */
+    --primary: 12 86% 56%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 220 18% 14%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 220 16% 18%;
+    --muted-foreground: 220 10% 65%;
 
-    --accent: 0 0% 20%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 36 90% 55%;
+    --accent-foreground: 222 24% 10%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 357 92% 47%;
+    --border: 220 16% 22%;
+    --input: 220 16% 16%;
+    --ring: 12 86% 56%;
 
-    --radius: 0.25rem;
-
-    /* Netflix tokens */
-    --netflix-black: 0 0% 8%;
-    --netflix-dark: 0 0% 11%;
-    --netflix-gray: 0 0% 18%;
-    --netflix-light-gray: 0 0% 45%;
-    --netflix-red: 357 92% 47%;
-    --netflix-white: 0 0% 100%;
+    --radius: 0.5rem;
 
     /* Sidebar */
-    --sidebar-background: 0 0% 8%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 357 92% 47%;
+    --sidebar-background: 222 24% 7%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 12 86% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 357 92% 47%;
+    --sidebar-accent: 220 18% 14%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 16% 22%;
+    --sidebar-ring: 12 86% 56%;
   }
 
-  /* Global element defaults */
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont,
-                 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: -0.01em; /* Netflix-style tight body text */
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    letter-spacing: -0.01em;
   }
 }
 
 /* Display / headline font */
 .font-display {
   font-family: 'Bebas Neue', sans-serif;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
 }
 
-/* Scrollbar (Netflix style) */
+/* Subtle grid background helper */
+.creator-grid {
+  background-image:
+    linear-gradient(to right, hsla(0, 0%, 100%, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, hsla(0, 0%, 100%, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--netflix-black));
+  background: hsl(var(--background));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--netflix-gray));
+  background: hsl(var(--muted));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--netflix-light-gray));
+  background: hsl(var(--muted-foreground));
 }
 
-/* Hide scrollbars for horizontal carousels */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

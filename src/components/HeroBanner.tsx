@@ -1,4 +1,4 @@
-import { Play, Info } from "lucide-react";
+import { Play, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Show } from "@/data/mockData";
 import { Button } from "./ui/button";
@@ -9,66 +9,58 @@ interface HeroBannerProps {
 
 const HeroBanner = ({ show }: HeroBannerProps) => {
   return (
-    <div className="relative h-[70vh] md:h-[85vh] w-full overflow-hidden">
-      {/* Background Image */}
+    <div className="relative h-[72vh] md:h-[82vh] w-full overflow-hidden">
       <div className="absolute inset-0">
-        <img
-          src={show.image}
-          alt={show.title}
-          className="w-full h-full object-cover"
-        />
-        {/* Gradient - Netflix style left-to-right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent" style={{
-          background: "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%)"
-        }} />
+        <img src={show.image} alt={show.title} className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </div>
 
-      {/* Content */}
-      <div className="absolute bottom-[20%] left-4 md:left-12 max-w-xl z-10">
-        <p className="text-xs md:text-sm text-muted-foreground font-semibold mb-2 tracking-wide">
-          NEW EPISODES AVAILABLE
-        </p>
+      <div className="absolute inset-0" />
 
-        <h1 style={{
-          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-          fontWeight: 700,
-          fontSize: "64px",
-          letterSpacing: "-1px",
-          lineHeight: "1.05"
-        }} className="mb-4">
+      <div className="absolute bottom-[18%] left-4 md:left-12 max-w-2xl z-10">
+        <p className="text-xs uppercase tracking-[0.3em] text-primary/90 mb-3">
+          Featured Series
+        </p>
+        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl leading-tight">
           {show.title}
         </h1>
-        <p className="text-sm md:text-base mb-6 line-clamp-3 text-foreground/90">
+        <p className="text-sm md:text-base mt-4 text-foreground/80 line-clamp-3">
           {show.description}
         </p>
 
-        <div className="flex gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+          <span className="px-3 py-1 rounded-full bg-secondary/80 border border-border">
+            {show.genre}
+          </span>
+          <span>{show.episodes.length} episodes</span>
+          <span>{show.views.toLocaleString()} total views</span>
+        </div>
+
+        <div className="mt-6 flex gap-3">
           <Link to={`/show/${show.id}`}>
-            <Button
-              size="lg"
-              className="bg-foreground text-background hover:bg-foreground/90 font-semibold gap-2"
-            >
+            <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 font-semibold gap-2">
               <Play className="w-5 h-5 fill-current" />
-              Read
+              Open series
             </Button>
           </Link>
           <Link to={`/show/${show.id}`}>
-            <Button
-              size="lg"
-              variant="secondary"
-              className="font-semibold gap-2"
-            >
-              <Info className="w-5 h-5" />
-              More Info
+            <Button size="lg" variant="secondary" className="font-semibold gap-2">
+              <Sparkles className="w-5 h-5" />
+              AI suggestions
             </Button>
           </Link>
         </div>
       </div>
 
-      {/* Rating Badge */}
-      <div className="absolute bottom-[20%] right-4 md:right-12 flex items-center gap-2">
-        <div className="h-10 w-1 bg-muted-foreground" />
-        <span className="text-lg font-medium">{show.genre}</span>
+      <div className="absolute bottom-[18%] right-4 md:right-12 hidden md:flex flex-col items-end gap-3">
+        <div className="rounded-2xl border border-border bg-card/80 backdrop-blur px-5 py-4 max-w-xs">
+          <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">Release readiness</p>
+          <p className="text-lg font-semibold mt-1">Next episode ready in 2 days</p>
+          <div className="mt-3 h-2 rounded-full bg-muted overflow-hidden">
+            <div className="h-full bg-primary w-4/5" />
+          </div>
+        </div>
       </div>
     </div>
   );
