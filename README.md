@@ -21,10 +21,9 @@ StoryVerse empowers small and emerging creators with the same tools and support 
 ## Tech Stack
 
 This project is built with:
-
-- TypeScript
-- React
-- Tailwind CSS
+- Back-end: Firebase Intuitive, MongoDB, and Python
+- Front-End: TypeScript, React, and Tailwind CSS
+- Deployed on: Aedify AI
   
 To get the project up and running:
 
