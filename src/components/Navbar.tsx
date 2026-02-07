@@ -13,8 +13,8 @@ const Navbar = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const navLinks = [
-    { label: "Home", path: "/" },
-    { label: "My Stories", path: "/my-stories" },
+    { label: "Home", path: "/browse" },
+    { label: "My Stories", path: "/my-popular" },
     { label: "New & Popular", path: "/popular" },
     { label: "My List", path: "/my-list" },
   ];
