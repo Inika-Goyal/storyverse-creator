@@ -44,6 +44,7 @@ def analyze_genres(file_path):
         print("GENRES RANKED BY VOLUME (Count)")
         print("-" * 30)
         print(genre_counts.to_string(index=False))
+        return top_rated.iloc[0]['genre']
 
     except FileNotFoundError:
         print(f"Error: The file '{file_path}' was not found. Please make sure it is in the same directory.")
@@ -53,6 +54,5 @@ def analyze_genres(file_path):
 if __name__ == "__main__":
     # You can change this filename if your CSV is named differently
     csv_filename = 'shows.csv'
-    analyze_genres(csv_filename)
-    bestGenre = genre_ratings.loc[genre_ratings['average rating'].idxmax()]
-    print(str(bestGenre))
+    x = analyze_genres(csv_filename)
+    print(f"\nThe most popular genre based on average rating is: {x}")
