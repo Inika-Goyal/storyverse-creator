@@ -5,6 +5,7 @@
   Instead of using spreadsheets or basic calendars, creators can plan their work as episodes that move through a visual workflow:
 
 Key features include📜 :
+  
   Episode-based planning: Visual dashboards let creators track the progress of each piece of content.
 
   AI assistance: Automatically generate scripts, suggest hooks, and discover trending topics in your niche.
