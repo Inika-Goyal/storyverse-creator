@@ -18,17 +18,8 @@ const Navbar = () => {
     <nav className="relative z-50 flex items-center justify-between px-4 md:px-12 py-4 bg-background">
       <div className="flex items-center gap-8">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <img 
-            src="/logo.png" 
-            alt="StoryVerse Logo" 
-            style={{ height: '70px', width: 'auto' }} 
-            className="object-contain" 
-          />
-
-          {/* <h1 className="font-display text-3xl md:text-4xl text-primary tracking-wider">
-            STORYVERSE
-          </h1> */}
+        <Link to="/" className="flex items-center group">
+          <h1 className="logo-netflix-style text-4xl md:text-6xl">STORYVERSE</h1>
         </Link>
         
         {/* Nav Links - Desktop */}
@@ -80,3 +71,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

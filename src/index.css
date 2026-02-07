@@ -104,3 +104,22 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+
+/* src/index.css */
+@layer components {
+  .logo-netflix-style {
+    @apply font-display text-[#E50914] leading-none inline-block;
+    
+    /* 1. 자간을 더 좁게 (넷플릭스 로고의 핵심은 다닥다닥 붙은 글자입니다) */
+    letter-spacing: -0.06em; 
+    
+    /* 2. 세로로 약간 늘리기 (Bebas Neue 폰트의 강렬함을 극대화) */
+    transform: scaleY(1.15);
+
+    /* 3. 광채 효과: 글자 바로 뒤는 선명하게, 바깥은 은은하게 (다중 레이어) */
+    filter: drop-shadow(0 0 4px rgba(229, 9, 20, 0.9))   /* 글자 윤곽선 강조 */
+            drop-shadow(0 0 12px rgba(229, 9, 20, 0.6))  /* 중간 광채 */
+            drop-shadow(0 0 25px rgba(229, 9, 20, 0.3)); /* 전체적인 퍼짐 */
+  }
+}
