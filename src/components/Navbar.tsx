@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { label: "Home", path: "/" },
+    { label: "Home", path: "/browse" },
     { label: "Your Stories", path: "/browse", sectionId: "your-stories" },
     { label: "New & Popular", path: "/browse", sectionId: "new-on-storyverse" },
   ];
@@ -42,20 +42,23 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative z-50 flex items-center justify-between bg-background" style={{
-      height: "56px",
-      padding: "0 40px",
-      fontFamily: "Helvetica, Arial, sans-serif",
-      fontSize: "14px"
-    }}>
+    <nav
+      className="relative z-50 flex items-center justify-between bg-background"
+      style={{
+        height: "56px",
+        padding: "0 40px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontSize: "14px",
+      }}
+    >
       <div className="flex items-center gap-8">
         {/* Logo */}
-        <Link to="/" className="flex items-center group">
-          <img 
-          src="/logo.png" 
-          alt="STORYVERSE Logo" 
-          className="h-12 md:h-16 w-auto object-contain" 
-        />
+        <Link to="/browse" className="flex items-center group">
+          <img
+            src="/logo.png"
+            alt="STORYVERSE Logo"
+            className="h-12 md:h-16 w-auto object-contain"
+          />
         </Link>
 
         {/* Nav Links - Desktop */}
@@ -71,10 +74,14 @@ const Navbar = () => {
                 border: "none",
                 background: "none",
                 cursor: "pointer",
-                transition: "color 0.2s"
+                transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = "rgba(255,255,255,1)"}
-              onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.color = "rgba(255,255,255,1)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.color = "rgba(255,255,255,0.7)")
+              }
             >
               {link.label}
             </button>
@@ -139,5 +146,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
