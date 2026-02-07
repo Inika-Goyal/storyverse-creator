@@ -1,48 +1,41 @@
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import heroBanner from "@/assets/hero-banner.jpg";
+import heroBanner from "../assets/hero-banner.jpg";
 
 const Auth = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-background">
+    <div className="min-h-screen relative overflow-hidden bg-black">
       {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
+      <div 
+        className="absolute inset-0 opacity-40"
         style={{
           backgroundImage: `url(${heroBanner})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
         }}
       />
-
-      {/* Dark overlay so text stays readable */}
-      <div className="absolute inset-0 bg-black/60" />
-
-      {/* Background mosaic of show posters */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1 transform rotate-[-10deg] scale-125 -translate-y-20">
-          {Array.from({ length: 48 }).map((_, i) => (
-            <div
-              key={i}
-              className="aspect-[2/3] bg-gradient-to-br from-muted to-muted/50 rounded-sm"
-              style={{
-                animationDelay: `${i * 0.1}s`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/60" />
+      
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header (logo only now) */}
-        <header className="flex items-center justify-center px-6 md:px-12 py-6">
-          <h1 className="font-display text-3xl md:text-5xl text-primary tracking-wider">
-            STORYVERSE
-          </h1>
+        {/* Header */}
+        <header className="flex items-center justify-between px-6 md:px-12 py-6">
+          <img 
+            src="/logo.png" 
+            alt="STORYVERSE Logo" 
+            className="h-12 md:h-16 w-auto object-contain" 
+          />
+          <button
+            onClick={() => navigate("/profiles")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-1.5 rounded text-sm font-semibold transition-colors"
+          >
+            Sign In
+          </button>
         </header>
 
         {/* Hero Content */}

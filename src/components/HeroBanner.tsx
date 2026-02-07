@@ -24,7 +24,13 @@ const HeroBanner = ({ show }: HeroBannerProps) => {
 
       {/* Content */}
       <div className="absolute bottom-[20%] left-4 md:left-12 max-w-xl z-10">
-        <p className="text-primary font-semibold mb-2">STORYVERSE ORIGINAL</p>
+        <div className="flex items-center gap-2 mb-4">
+          {/* <img src="/logo.png" alt="Logo" className="h-8 md:h-12 w-auto object-contain" /> */}
+          {/* <p className="text-primary font-semibold tracking-widest text-xs md:text-sm">
+            ORIGINAL
+          </p> */}
+        </div>
+
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-wide mb-4">
           {show.title.toUpperCase()}
         </h1>
