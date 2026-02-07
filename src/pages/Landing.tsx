@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import heroBanner from "@/assets/welcome-banner.jpg";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -7,10 +8,16 @@ export default function Landing() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-background">
       <div className="absolute inset-0">
+        <img
+          src={heroBanner}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-top opacity-80"
+        />
         <div className="absolute inset-0 creator-grid opacity-20" />
         <div className="absolute top-16 -right-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
         <div className="absolute bottom-0 -left-20 h-80 w-80 rounded-full bg-accent/15 blur-3xl" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/70 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/55 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </div>
 
       <div className="relative z-10 min-h-screen flex flex-col">

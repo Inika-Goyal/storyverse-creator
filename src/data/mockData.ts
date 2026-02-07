@@ -2,6 +2,7 @@ import showFantasy from "@/assets/show-fantasy.jpg";
 import showRomance from "@/assets/show-romance.jpg";
 import showScifi from "@/assets/show-scifi.jpg";
 import showMystery from "@/assets/show-mystery.jpg";
+import glassGarden from "@/assets/glass-garden.jpg";
 import showAdventure from "@/assets/show-adventure.jpg";
 import showCrime from "@/assets/show-crime.jpg";
 import heroBanner from "@/assets/hero-banner.jpg";
@@ -222,7 +223,7 @@ export const shows: Show[] = [
     id: "9",
     title: "Glass Garden",
     description: "An indie animator builds a surreal universe, but the characters begin speaking back.",
-    image: showMystery,
+    image: glassGarden,
     genre: "Fantasy",
     views: 8200,
     badge: "New",
