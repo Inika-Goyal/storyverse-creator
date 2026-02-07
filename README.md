@@ -1,4 +1,4 @@
-# This is StoryVerse✒️
+# Welcome to StoryVerse✒️
 
 ## Project info 
   StoryVerse is a Netflix-inspired content planning platform designed for creators. It transforms the way creators organize, produce, and grow their content by framing it like a TV series.
