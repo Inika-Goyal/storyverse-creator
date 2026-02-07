@@ -15,13 +15,20 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-12 py-4 bg-gradient-to-b from-background/95 to-transparent">
+    <nav className="relative z-50 flex items-center justify-between px-4 md:px-12 py-4 bg-background">
       <div className="flex items-center gap-8">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <h1 className="font-display text-3xl md:text-4xl text-primary tracking-wider">
+          <img 
+            src="/logo.png" 
+            alt="StoryVerse Logo" 
+            style={{ height: '70px', width: 'auto' }} 
+            className="object-contain" 
+          />
+
+          {/* <h1 className="font-display text-3xl md:text-4xl text-primary tracking-wider">
             STORYVERSE
-          </h1>
+          </h1> */}
         </Link>
         
         {/* Nav Links - Desktop */}
