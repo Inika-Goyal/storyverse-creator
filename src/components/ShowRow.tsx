@@ -29,44 +29,47 @@ const ShowRow = ({ title, shows }: ShowRowProps) => {
   };
 
   return (
-    <div className="relative group/row py-4">
-      <h2 className="text-lg md:text-xl font-semibold mb-3 px-4 md:px-12">
-        {title}
-      </h2>
-      
-      <div className="relative">
-        {/* Left Arrow */}
+    <section className="relative group/row py-6">
+      <div className="px-4 md:px-12 flex items-center justify-between">
+        <h2 className="text-lg md:text-xl font-semibold tracking-wide">
+          {title}
+        </h2>
+        <button className="hidden md:flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
+          View all
+        </button>
+      </div>
+
+      <div className="relative mt-3">
         {showLeftArrow && (
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-r from-background to-transparent flex items-center justify-start pl-2 opacity-0 group-hover/row:opacity-100 transition-opacity"
+            className="absolute left-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-r from-background via-background/70 to-transparent flex items-center justify-start pl-2 opacity-0 group-hover/row:opacity-100 transition-opacity"
           >
-            <ChevronLeft className="w-8 h-8" />
+            <ChevronLeft className="w-7 h-7" />
           </button>
         )}
-        
-        {/* Shows Container */}
+
         <div
           ref={rowRef}
           onScroll={handleScroll}
-          className="flex gap-2 overflow-x-auto scrollbar-hide px-4 md:px-12"
+          className="flex overflow-x-auto scrollbar-hide px-4 md:px-12"
+          style={{ gap: "12px" }}
         >
           {shows.map((show) => (
             <ShowCard key={show.id} show={show} />
           ))}
         </div>
-        
-        {/* Right Arrow */}
+
         {showRightArrow && (
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-l from-background to-transparent flex items-center justify-end pr-2 opacity-0 group-hover/row:opacity-100 transition-opacity"
+            className="absolute right-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-l from-background via-background/70 to-transparent flex items-center justify-end pr-2 opacity-0 group-hover/row:opacity-100 transition-opacity"
           >
-            <ChevronRight className="w-8 h-8" />
+            <ChevronRight className="w-7 h-7" />
           </button>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

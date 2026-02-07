@@ -4,6 +4,8 @@ import showScifi from "@/assets/show-scifi.jpg";
 import showMystery from "@/assets/show-mystery.jpg";
 import showAdventure from "@/assets/show-adventure.jpg";
 import showCrime from "@/assets/show-crime.jpg";
+import heroBanner from "@/assets/hero-banner.jpg";
+import netflixBackground from "@/assets/netflix-background.jpg";
 
 export interface Episode {
   id: string;
@@ -181,6 +183,88 @@ export const shows: Movie[] = [
         isFinished: false
       }
     ]
+  },
+  {
+    id: "7",
+    title: "Signal to Orbit",
+    description: "A scrappy film crew documents the first off-world music festival and uncovers a story that could change Earth forever.",
+    image: heroBanner,
+    genre: "Sci-Fi",
+    views: 7600,
+    badge: "Trending",
+    episodes: [
+      {
+        id: "7-1",
+        title: "Launch Window",
+        number: 1,
+        description: "The crew boards a cargo ship bound for Luna.",
+        plot: "The docks hum with engines as the crew prepares to leave Earth...",
+        characters: ["Rina - Director", "Myles - Sound engineer", "Kira - Pilot"],
+        additionalElements: "Setting: Lunar orbital port\nMood: Electric, hopeful",
+        isFinished: false
+      }
+    ]
+  },
+  {
+    id: "8",
+    title: "Echo Lake",
+    description: "A documentary team returns to a coastal town and discovers a legend that is more real than anyone believed.",
+    image: netflixBackground,
+    genre: "Mystery",
+    views: 6900,
+    episodes: [
+      {
+        id: "8-1",
+        title: "The Still Water",
+        number: 1,
+        description: "A strange sound pulls the crew into the forest at night.",
+        plot: "Waves lap the shore as the team sets up their first night shoot...",
+        characters: ["Mara - Producer", "Devin - Cinematographer"],
+        additionalElements: "Setting: Pacific coast\nMood: Eerie, quiet",
+        isFinished: false
+      }
+    ]
+  },
+  {
+    id: "9",
+    title: "Glass Garden",
+    description: "An indie animator builds a surreal universe, but the characters begin speaking back.",
+    image: showMystery,
+    genre: "Fantasy",
+    views: 8200,
+    badge: "New",
+    episodes: [
+      {
+        id: "9-1",
+        title: "Living Sketches",
+        number: 1,
+        description: "A sketchbook comes alive during a late-night session.",
+        plot: "Ink bleeds across the page as a new character appears...",
+        characters: ["Nova - Animator", "Rune - The sketch"],
+        additionalElements: "Medium: 2D/3D hybrid\nMood: Dreamlike",
+        isFinished: false
+      }
+    ]
+  },
+  {
+    id: "10",
+    title: "Threaded",
+    description: "A fashion creator documents the origin stories behind iconic streetwear drops.",
+    image: showRomance,
+    genre: "Documentary",
+    views: 6100,
+    episodes: [
+      {
+        id: "10-1",
+        title: "First Stitch",
+        number: 1,
+        description: "A creator revisits the community that started it all.",
+        plot: "The camera follows a late-night cut-and-sew session...",
+        characters: ["Jules - Designer", "Tariq - Historian"],
+        additionalElements: "Setting: Urban studio\nMood: Gritty, hopeful",
+        isFinished: false
+      }
+    ]
   }
 ];
 
@@ -201,7 +285,8 @@ export const nicheTopics: Record<string, string[]> = {
   "Sci-Fi": ["First Contact", "Space Opera", "Cyberpunk Noir", "AI Sentience"],
   Mystery: ["Locked Room", "Amateur Sleuth", "Cozy Mystery", "Psychological Thriller"],
   Adventure: ["Lost Civilizations", "Treasure Hunt", "Survival", "Expedition Gone Wrong"],
-  Crime: ["Police Procedural", "Vigilante Justice", "True Crime Inspired", "Cold Cases"]
+  Crime: ["Police Procedural", "Vigilante Justice", "True Crime Inspired", "Cold Cases"],
+  Documentary: ["Creator Diaries", "Behind the Lens", "Origin Stories", "Street Culture"]
 };
 
 export interface Notification {
@@ -246,7 +331,7 @@ export const notifications: Notification[] = [
 
 export const creatorStats = {
   totalViews: 67300,
-  totalStories: 6,
+  totalStories: 10,
   followers: 1247,
   primaryNiche: "Fantasy",
   secondaryNiche: "Sci-Fi",

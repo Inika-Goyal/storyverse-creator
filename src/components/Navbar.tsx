@@ -1,20 +1,31 @@
-import { Bell, Search, User, LogOut } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Bell, Search, User, LogOut, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import NotificationPanel from "./NotificationPanel";
 
 const Navbar = () => {
-  const location = useLocation();
+ 
   const navigate = useNavigate();
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
+  const handleNavClick = (path: string, sectionId?: string) => {
+    if (sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(path);
+    }
+  };
+
   const navLinks = [
-    { label: "Home", path: "/browse" },
-    { label: "My Stories", path: "/my-popular" },
+    { label: "Home", path: "/" },
+    { label: "My Stories", path: "/my-stories" },
     { label: "New & Popular", path: "/popular" },
     { label: "My List", path: "/my-list" },
   ];
@@ -32,7 +43,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative z-50 flex items-center justify-between px-4 md:px-12 py-4 bg-background">
+    <nav className="relative z-50 flex items-center justify-between bg-background" style={{
+      height: "56px",
+      padding: "0 40px",
+      fontFamily: "Helvetica, Arial, sans-serif",
+      fontSize: "14px"
+    }}>
       <div className="flex items-center gap-8">
         {/* Logo */}
         <Link to="/" className="flex items-center group">
@@ -44,79 +60,86 @@ const Navbar = () => {
         </Link>
 
         {/* Nav Links - Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center" style={{ gap: "18px" }}>
           {navLinks.map((link) => (
-            <Link
+            <button
               key={link.path}
-              to={link.path}
-              className={`text-sm font-medium transition-colors hover:text-foreground ${
-                location.pathname === link.path
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-              }`}
+              onClick={() => handleNavClick(link.path, link.sectionId)}
+              style={{
+                fontSize: "14px",
+                fontFamily: "Helvetica, Arial, sans-serif",
+                color: "rgba(255,255,255,0.7)",
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+                transition: "color 0.2s"
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = "rgba(255,255,255,1)"}
+              onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
             >
               {link.label}
-            </Link>
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Right Side Icons */}
-      <div className="flex items-center gap-4">
-        <button className="p-2 rounded-full hover:bg-accent transition-colors">
-          <Search className="w-5 h-5" />
-        </button>
-
-        <div className="relative">
-          <button
-            className="p-2 rounded-full hover:bg-accent transition-colors relative"
-            onClick={() => setShowNotifications(!showNotifications)}
-          >
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
+        <div className="flex items-center gap-3">
+          <button className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-full bg-secondary/70 border border-border text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <Sparkles className="w-4 h-4 text-primary" />
+            AI Story Lab
           </button>
 
-          {showNotifications && (
-            <NotificationPanel onClose={() => setShowNotifications(false)} />
-          )}
-        </div>
-
-        {/* User menu (Profile + Logout) */}
-        <div className="relative">
-          <button
-            onClick={() => setShowUserMenu((v) => !v)}
-            className="p-1 rounded hover:ring-2 ring-foreground transition-all"
-          >
-            <div className="w-8 h-8 rounded bg-primary flex items-center justify-center">
-              <User className="w-4 h-4" />
-            </div>
+          <button className="p-2 rounded-full hover:bg-accent transition-colors">
+            <Search className="w-5 h-5" />
           </button>
 
-          {showUserMenu && (
-            <div className="absolute right-0 mt-2 w-40 bg-background border border-muted rounded shadow-lg overflow-hidden">
-              <Link
-                to="/stats"
-                onClick={() => setShowUserMenu(false)}
-                className="block px-4 py-2 text-sm hover:bg-accent transition-colors"
-              >
-                Profile
-              </Link>
+          <div className="relative">
+            <button
+              className="p-2 rounded-full hover:bg-accent transition-colors relative"
+              onClick={() => setShowNotifications(!showNotifications)}
+            >
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
+            </button>
 
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
-              >
-                <LogOut className="w-4 h-4" />
-                Log out
-              </button>
-            </div>
-          )}
+            {showNotifications && (
+              <NotificationPanel onClose={() => setShowNotifications(false)} />
+            )}
+          </div>
+
+          <div className="relative">
+            <button
+              onClick={() => setShowUserMenu((v) => !v)}
+              className="p-1 rounded-full hover:ring-2 ring-primary/60 transition-all"
+            >
+              <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
+                <User className="w-4 h-4 text-primary" />
+              </div>
+            </button>
+
+            {showUserMenu && (
+              <div className="absolute right-0 mt-2 w-44 bg-background border border-border rounded-xl shadow-lg overflow-hidden">
+                <Link
+                  to="/stats"
+                  onClick={() => setShowUserMenu(false)}
+                  className="block px-4 py-2 text-sm hover:bg-accent transition-colors"
+                >
+                  Profile
+                </Link>
+
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Log out
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
     </nav>
   );
 };
 
 export default Navbar;
-
-
