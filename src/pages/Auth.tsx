@@ -37,8 +37,8 @@ const Auth = () => {
         <header className="flex items-center justify-between px-6 md:px-12 py-6">
           <img 
             src="/logo.png" 
-            alt="StoryVerse Logo" 
-            className="h-8 md:h-12 w-auto object-contain" 
+            alt="STORYVERSE Logo" 
+            className="h-12 md:h-16 w-auto object-contain" 
           />
           <button
             onClick={() => navigate("/profiles")}
