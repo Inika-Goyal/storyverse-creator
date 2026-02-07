@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import heroBanner from "../assets/hero-banner.jpg";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -15,24 +16,20 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-background">
-      {/* Background mosaic of show posters */}
-      <div className="absolute inset-0 opacity-40">
-        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-1 transform rotate-[-10deg] scale-125 -translate-y-20">
-          {Array.from({ length: 48 }).map((_, i) => (
-            <div
-              key={i}
-              className="aspect-[2/3] bg-gradient-to-br from-muted to-muted/50 rounded-sm"
-              style={{
-                animationDelay: `${i * 0.1}s`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
+    <div className="min-h-screen relative overflow-hidden bg-black">
+      {/* Background image */}
+      <div 
+        className="absolute inset-0 opacity-40"
+        style={{
+          backgroundImage: `url(${heroBanner})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
       
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/60" />
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/40" />
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
